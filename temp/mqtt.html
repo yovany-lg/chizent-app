@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>test Ws mqtt.js</title>
+</head>
+<body>
+<script src="https://unpkg.com/mqtt@2.17.0/dist/mqtt.min.js"></script>
+<script>
+  var client = mqtt.connect("ws://192.168.1.67:1883") // you add a ws:// url here
+  client.subscribe("#");
+  setTimeout(function (){
+    console.log("Connected", client.connected);
+  }, 5000);
+  client.on("connect", function () {
+    alert("connected");
+  });
+  client.on("message", function (topic, payload) {
+    alert([topic, payload].join(": "))
+    client.end()
+  })
+
+  client.publish("mqtt/demo", "hello world!")
+</script>
+</body>
+</html>
