@@ -1,6 +1,24 @@
 import React from 'react';
 
-const CalibrateModal = ({ nextStep, reset, step }) => (
+const Completed = ({ nextStep }) => {
+  setTimeout(() => {
+    nextStep();
+  }, 2000);
+  return (
+    <div className="modal is-active">
+      <div className="modal-background" />
+      <div className="modal-content">
+        <div className="notification is-primary">
+          <span className="is-size-4">
+            Calibración Exitosa!
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CalibrateModal = ({ reset, step, request, fetching }) => (
   <div className="modal is-active">
     <div className="modal-background" />
     <div className="modal-card">
@@ -25,8 +43,14 @@ const CalibrateModal = ({ nextStep, reset, step }) => (
         <div className="has-text-centered">
           <div className="field">
             <a
-              className={`button is-large ${step !== 1 ? 'is-dark' : 'is-primary'}`}
-              onClick={nextStep}
+              className={
+                `button is-large ${step !== 1 ? 'is-dark' : 'is-primary'} ${step === 1 && fetching ? 'is-loading' : ''}`
+              }
+              onClick={() => {
+                if(step === 1) {
+                  request()
+                }
+              }}
               disabled={step !== 1}
             >
               <span className="is-size-3">pH 7</span>
@@ -37,8 +61,14 @@ const CalibrateModal = ({ nextStep, reset, step }) => (
           </div>
           <div className="field">
             <a
-              className={`button is-large ${step !== 2 ? 'is-dark' : 'is-danger'}`}
-              onClick={nextStep}
+              className={
+                `button is-large ${step !== 2 ? 'is-dark' : 'is-danger'} ${step === 2 && fetching ? 'is-loading' : ''}`
+              }
+              onClick={() => {
+                if(step === 2) {
+                  request()
+                }
+              }}
               disabled={step !== 2}
             >
               <span className="is-size-3">pH 4</span>
@@ -49,8 +79,14 @@ const CalibrateModal = ({ nextStep, reset, step }) => (
           </div>
           <div className="field">
             <a
-              className={`button is-large ${step !== 3 ? 'is-dark' : 'is-link'}`}
-              onClick={nextStep}
+              className={
+                `button is-large ${step !== 3 ? 'is-dark' : 'is-link'} ${step === 3 && fetching ? 'is-loading' : ''}`
+              }
+              onClick={() => {
+                if(step === 3) {
+                  request()
+                }
+              }}
               disabled={step !== 3}
             >
               <span className="is-size-3">pH 10</span>
@@ -65,4 +101,15 @@ const CalibrateModal = ({ nextStep, reset, step }) => (
   </div>
 );
 
-export default CalibrateModal;
+const MainComponent = ({
+  nextStep,
+  reset,
+  step,
+  request,
+  completed,
+  fetching
+}) => (completed ?
+  <Completed nextStep={nextStep} /> :
+  <CalibrateModal reset={reset} step={step} request={request} fetching={fetching} />);
+
+export default MainComponent;

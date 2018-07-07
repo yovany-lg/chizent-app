@@ -11,6 +11,7 @@ const initialState = {
   step: 0,
   calPoint: undefined,
   fetching: false,
+  completed: false,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -18,8 +19,9 @@ const mainReducer = (state = initialState, action) => {
     case CALIBRATE_NEXT_STEP:
       return {
         step: state.step < 3 ? state.step + 1 : 0,
-        calPoint: stepName[state.step + 1],
+        calPoint: stepName[state.step],
         fetching: false,
+        completed: false,
       };
     case CALIBRATE_RESET:
       return {
@@ -34,6 +36,7 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         fetching: false,
+        completed: true,
       };
     default:
       return state;

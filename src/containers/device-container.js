@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
-import DeviceStatus from '../components/device';
-import { findDevice, getDeviceStatus } from '../actions/device-actions';
+import DeviceStatus from '../components/device-status';
+import { findDevice } from '../actions/device-actions';
 import { requestNewTask, requestStopTask } from '../actions/process-actions';
 
 const mapStateToProps = ({ device, task }) => ({
   online: device.ip !== undefined,
   isFetching: device.isFetching,
-  requestNewTask,
+  // requestNewTask,
   task,
 });
 
 const mapDispatchToProps = {
   findDevice,
-  // requestNewTask,
+  requestNewTask,
   requestStopTask,
 };
 

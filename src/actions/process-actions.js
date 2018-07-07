@@ -1,11 +1,13 @@
+import { resetView } from './view-actions';
+
 export const RECEIVE_TASK = 'task/receive';
 export const RESET_TASK = 'task/reset';
+export const REQUEST_TASK = 'task/request';
 
-const receiveTask = (running, phValue, tempValue, time) => ({
+const receiveTask = (running, phValue, time) => ({
   type: RECEIVE_TASK,
   running,
   phValue,
-  tempValue,
   time,
 });
 
@@ -13,17 +15,24 @@ const resetTask = () => ({
   type: RESET_TASK,
 });
 
-export const receiveTaskData = task =>
-  dispatch => dispatch(receiveTask(task.running, task.phValue, task.tempValue, task.time));
+const requestTask = () => ({
+  type: RESET_TASK,
+});
 
-export const requestNewTask = (phValue, tempValue, time) => {
+export const receiveTaskData = task => (dispatch) => {
+  dispatch(resetView());
+  dispatch(receiveTask(task.running, task.phValue, task.time));
+};
+
+export const requestNewTask = (phValue, time) => (dispatch) => {
+  dispatch(requestTask());
+  dispatch(resetView());
   if (window.client && window.client.connected) {
     const jsonState = {
       desired: {
         task: {
           running: true,
           phValue,
-          tempValue,
           time,
         },
       },

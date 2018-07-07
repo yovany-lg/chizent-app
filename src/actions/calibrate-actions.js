@@ -30,11 +30,9 @@ export const requestCalibration = calPoint => (dispatch) => {
   if (window.client && window.client.connected) {
     const jsonState = {
       desired: {
-        task: {
-          calibrate: {
-            calPoint,
-            completed: false,
-          },
+        calibrate: {
+          calPoint,
+          request: true,
         },
       },
     };

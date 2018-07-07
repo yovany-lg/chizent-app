@@ -2,7 +2,7 @@ import React from 'react';
 
 const Form = ({
   changePh,
-  changeTemp,
+  // changeTemp,
   phValue,
   tempValue,
   time,
@@ -22,22 +22,6 @@ const Form = ({
           max="14"
           value={phValue || 7}
           onChange={changePh}
-        />
-      </div>
-    </div>
-
-    <div className="field">
-      <label className="label">Nivel de Temperatura [°C]</label>
-      <div className="control">
-        <input
-          className="input"
-          type="number"
-          placeholder="20.0"
-          step="0.1"
-          min="0"
-          max="100"
-          value={tempValue || 20}
-          onChange={changeTemp}
         />
       </div>
     </div>
@@ -64,10 +48,8 @@ const ProcessForm = ({
   isOpen,
   close,
   phValue,
-  tempValue,
   time,
   changePh,
-  changeTemp,
   changeTime,
   sendRequest,
   valid
@@ -82,10 +64,8 @@ const ProcessForm = ({
       <section className="modal-card-body">
         <Form
           phValue={phValue}
-          tempValue={tempValue}
           time={time}
           changePh={changePh}
-          changeTemp={changeTemp}
           changeTime={changeTime}
         />
       </section>

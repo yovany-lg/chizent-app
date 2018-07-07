@@ -13,9 +13,9 @@ const Find = ({ findDevice, online, isFetching }) => (
   </a>
 );
 
-const ConfigButton = ({ toggleView, view }) => (
+const ConfigButton = ({ toggleView, view, taskRunning }) => (
   <a
-    className={`button ${view !== 'main' ? 'is-info' : ''}`}
+    className={`button ${view !== 'main' ? 'is-info' : ''} ${taskRunning ? 'is-loading' : ''}`}
     onClick={toggleView}
     role="button"
   >
@@ -25,7 +25,14 @@ const ConfigButton = ({ toggleView, view }) => (
   </a>
 );
 
-const Connected = ({ online, isFetching, findDevice, toggleView, view }) => (
+const Connected = ({
+  online,
+  isFetching,
+  findDevice,
+  toggleView,
+  view,
+  taskRunning
+}) => (
   <div>
     <span className="subtitle is-4 has-text-grey-dark" style={{ marginRight: 10 }}>Dispositivo:</span>
     {!online && <Find findDevice={findDevice} online={online} isFetching={isFetching} />}
@@ -36,7 +43,11 @@ const Connected = ({ online, isFetching, findDevice, toggleView, view }) => (
       {online ? 'En línea' : 'Desconectado'}
     </span>
     <span style={{ marginLeft: 10 }}>
-      {online && <ConfigButton toggleView={toggleView} view={view} />}
+      {online && <ConfigButton
+        toggleView={toggleView}
+        view={view}
+        taskRunning={taskRunning}
+      />}
     </span>
   </div>
 );
@@ -70,6 +81,7 @@ class DeviceStatus extends React.Component {
       requestStopTask,
       task,
       view,
+      resetView,
     } = this.props;
     return (
       <div className="columns is-tablet">
@@ -84,9 +96,13 @@ class DeviceStatus extends React.Component {
             }}
             toggleView={this.toggleView()}
             view={view}
+            taskRunning={task.running}
           />
         </div>
-        <Process requestNewTask={requestNewTask} requestStopTask={requestStopTask} task={task} />
+        {
+          online &&
+          <Process requestNewTask={requestNewTask} requestStopTask={requestStopTask} task={task} />
+        }
       </div>
     );
   }

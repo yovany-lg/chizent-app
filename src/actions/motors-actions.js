@@ -13,4 +13,4 @@ export const fetchMotorsData = () => ({
 
 export const receiveMotorsData = (motors, metadata) => dispatch =>
   Object.keys(motors)
-    .map(key => dispatch(receiveMotorData(key, motors[key])));
+    .map(key => dispatch(receiveMotorData(key, motors[key] | 0)));

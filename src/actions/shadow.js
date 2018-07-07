@@ -17,11 +17,11 @@ const receiveShadow = ({ reported, desired, metadata }, dispatch) => {
     dispatch(receiveMotorsData(reported.motors, metadata.reported.motors));
   }
   if (reported && reported.task !== undefined) {
-    // console.log('Task:', reported.task);
     dispatch(receiveTaskData(reported.task));
-    if (reported.task.calibrate) {
-      dispatch(receiveCalibration(reported.task.calibrate));
-    }
+  }
+  if (reported && reported.calibrate) {
+    console.log('Calibrate:', reported.calibrate);
+    dispatch(receiveCalibration(reported.calibrate));
   }
   // if (reported && reported.task !== undefined && reported.task.calibrate) {
   //   // console.log('Task:', reported.task);

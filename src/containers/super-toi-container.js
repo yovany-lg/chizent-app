@@ -11,6 +11,7 @@ import {
 import {
   nextStep,
   reset,
+  requestCalibration,
 } from '../actions/calibrate-actions';
 
 const mapStateToProps = ({ device: { wifiConfig, ip }, calibrate }) => ({
@@ -29,6 +30,7 @@ const mapDispatchToProps = ({
   shutdown,
   calibrateReset: reset,
   calibrateNextStep: nextStep,
+  requestCalibration: calPoint => dispatch => dispatch(requestCalibration(calPoint)),
 });
 
 const KitContainer = connect(

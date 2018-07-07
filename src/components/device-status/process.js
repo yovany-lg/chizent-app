@@ -53,9 +53,8 @@ const EndTask = ({ requestStopTask, task }) => (
   </div>
 );
 
-const validInputs = (phValue, tempValue) =>
-  phValue && (phValue >= 0 && phValue <= 14) &&
-  tempValue && (tempValue >= 0 && tempValue <= 100);
+const validInputs = phValue =>
+  phValue && (phValue >= 0 && phValue <= 14);
 
 class NewProcess extends React.Component {
   constructor() {
@@ -63,22 +62,20 @@ class NewProcess extends React.Component {
     this.state = {
       modal: false,
       phValue: 7,
-      tempValue: 20,
       time: 10,
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.changePh = this.changePh.bind(this);
-    this.changeTemp = this.changeTemp.bind(this);
     this.changeTime = this.changeTime.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
   }
 
   sendRequest() {
     const { requestNewTask } = this.props;
-    const { phValue, tempValue, time } = this.state;
-    if (validInputs(phValue, tempValue)) {
-      requestNewTask(phValue, tempValue, time);
+    const { phValue, time } = this.state;
+    if (validInputs(phValue)) {
+      requestNewTask(phValue, time);
       this.closeModal();
     }
   }
@@ -92,17 +89,13 @@ class NewProcess extends React.Component {
     // const { phValue, tempValue } = this.state;
     this.setState({ phValue: value });
   }
-  changeTemp({ target: { value } }) {
-    // const { phValue, tempValue } = this.state;
-    this.setState({ tempValue: value });
-  }
   changeTime({ target: { value } }) {
     // const { phValue, tempValue } = this.state;
     this.setState({ time: value });
   }
 
   render() {
-    const { modal, phValue, tempValue, time } = this.state;
+    const { modal, phValue, time } = this.state;
     const { task, requestStopTask } = this.props;
     // const { requestNewTask }
     // console.log('state:', this.state);
@@ -117,17 +110,16 @@ class NewProcess extends React.Component {
           isOpen={modal}
           close={this.closeModal}
           phValue={phValue}
-          tempValue={tempValue}
+          // tempValue={tempValue}
           time={time}
-          valid={validInputs(phValue, tempValue)}
+          valid={validInputs(phValue)}
           sendRequest={this.sendRequest}
           changePh={this.changePh}
-          changeTemp={this.changeTemp}
           changeTime={this.changeTime}
         />
       </React.Fragment>
     );
   }
-};
+}
 
 export default NewProcess;

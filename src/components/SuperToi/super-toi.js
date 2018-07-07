@@ -54,6 +54,7 @@ class App extends React.Component {
     this.handleCreateAP = this.handleCreateAP.bind(this);
     this.handleShutdown = this.handleShutdown.bind(this);
     this.handleNextStep = this.handleNextStep.bind(this);
+    this.requestCal = this.requestCal.bind(this);
   }
 
   componentWillMount() {
@@ -92,6 +93,12 @@ class App extends React.Component {
     shutdown(ip);
   }
 
+  requestCal() {
+    const { calibrate: { calPoint }, requestCalibration } = this.props;
+    console.log('Requesting CalPoint:', calPoint);
+    requestCalibration(calPoint);
+  }
+
   render() {
     const {
       wifis,
@@ -105,7 +112,11 @@ class App extends React.Component {
       shutdown,
       calibrate,
       calibrateReset,
+      requestCalibration,
     } = this.props;
+    // if (calibrate.completed) {
+    //   window.alert('Calibración Exitosa!');
+    // }
     // console.log('Kit:', this.props);
     return (
       <Fr>
@@ -131,10 +142,13 @@ class App extends React.Component {
           />
         }
         {
-          calibrate.step > 0 && <CalibrateModal
+          calibrate.step !== 0 && <CalibrateModal
             step={calibrate.step}
+            completed={calibrate.completed}
+            fetching={calibrate.fetching}
             nextStep={this.handleNextStep}
             reset={calibrateReset}
+            request={this.requestCal}
           />
         }
       </Fr>
